@@ -4,9 +4,9 @@ A micromouse competition repository
 The repository has program files divided into the following modules; control, drivers, main and navigation. Detailed information about the modules is provided below;
 
 1. Control
--Motion; Template for the motion control of the micromouse.
--pid; Template for the pid control logic to minimize errors
--wall follow; Template for the wall following code to enable the micromouse to navigate the maze without bumping into walls.
+- Motion; Template for the motion control of the micromouse.
+- pid; Template for the pid control logic to minimize errors
+- wall follow; Template for the wall following code to enable the micromouse to navigate the maze without bumping into walls.
 
 2. Drivers
 - encoder; Template for encoder action
