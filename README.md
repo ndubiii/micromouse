@@ -22,4 +22,4 @@ The repository has program files divided into the following modules; control, dr
 - Flood fill; Template for the flood fill algorithm 
 - Maze; Template for the maze structure
 
-Participants are advised to look at both the .h and .cpp files. Detailed information about the code to be added to the templates have been provided in the specific files. Participants should choose the modules they are going to work on.
+Participants are advised to look at both the .h and .cpp files. Detailed information about the code to be added to the templates have been provided in the specific files. Participants should choose the modules they are going to work on. You can clone the templates and edit.
