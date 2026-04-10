@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <unity.h>
 #include "PID.h"
+#include "../test_common/unity_test_runner.h"
 
 void test_pid_basic_response()
 {
@@ -24,13 +25,15 @@ void test_pid_reset()
     float output = pid.calculate(0, 0); // After reset, integral = 0
     TEST_ASSERT_EQUAL_FLOAT(0, output);
 }
-
-void setup()
+void run_all_tests()
 {
-    UNITY_BEGIN();
     RUN_TEST(test_pid_basic_response);
     RUN_TEST(test_pid_reset);
-    UNITY_END();
+}
+void setup()
+{
+    TestFunc tests[] = {run_all_tests};
+    runUnityTests(tests, 1);
 }
 
 void loop() {}

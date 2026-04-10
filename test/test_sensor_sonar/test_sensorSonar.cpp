@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <unity.h>
 #include "Sonar.h"
+#include "../test_common/unity_test_runner.h"
 
 // Unit test math logic (PC / simulation)
 void test_distance_math()
@@ -10,11 +11,15 @@ void test_distance_math()
     TEST_ASSERT_FLOAT_WITHIN(0.001, 17.0, expected);
 }
 
+void run_all_tests()
+{
+    RUN_TEST(test_distance_math);
+}
 void setup()
 {
-    UNITY_BEGIN();
-    RUN_TEST(test_distance_math);
-    UNITY_END();
+
+    TestFunc tests[] = {run_all_tests};
+    runUnityTests(tests, 1);
 }
 
 void loop() {}

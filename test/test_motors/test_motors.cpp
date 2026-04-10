@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <unity.h>
 #include "Motor.h"
-
+#include "../test_common/unity_test_runner.h"
 // -------------------- Fake Driver --------------------
 class FakeDriver : public IMotorDriver
 {
@@ -49,13 +49,16 @@ void test_stop()
     TEST_ASSERT_EQUAL(0, fake.lastDir);
 }
 
-void setup()
+void run_all_tests()
 {
-    UNITY_BEGIN();
     RUN_TEST(test_positive_speed);
     RUN_TEST(test_negative_speed);
     RUN_TEST(test_stop);
-    UNITY_END();
+}
+void setup()
+{
+    TestFunc tests[] = {run_all_tests};
+    runUnityTests(tests, 1);
 }
 
 void loop() {}

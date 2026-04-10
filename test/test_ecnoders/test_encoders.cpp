@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <unity.h>
+#include "../test_common/unity_test_runner.h"
 #include "Encoder.h"
 
 // -------------------- Fake Encoder --------------------
@@ -45,13 +46,18 @@ void test_reset()
     TEST_ASSERT_EQUAL(0, fake.getTicks());
 }
 
-void setup()
+void run_all_tests()
 {
-    UNITY_BEGIN();
     RUN_TEST(test_distance_calculation);
     RUN_TEST(test_velocity_calculation);
     RUN_TEST(test_reset);
-    UNITY_END();
+}
+
+void setup()
+{
+
+    TestFunc tests[] = {run_all_tests};
+    runUnityTests(tests, 1);
 }
 
 void loop() {}
