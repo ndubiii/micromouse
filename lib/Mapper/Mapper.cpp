@@ -1,3 +1,4 @@
+#include "SPIFFS.h"
 #include "Mapper.h"
 
 Mapper::Mapper(IRScanner &left, IRScanner &right, Sonar &front)
@@ -58,4 +59,42 @@ void Mapper::turnRight()
 void Mapper::turnAround()
 {
     heading = (heading + 2) % 4;
+}
+
+void Mapper::saveMazeToFile()
+{
+    File file = SPIFFS.open("/maze.txt", FILE_WRITE);
+    if (!file)
+        return;
+
+    for (int y = 15; y >= 0; y--)
+    {
+        // TOP WALLS
+        for (int x = 0; x < 16; x++)
+        {
+            file.print("+");
+            file.print(walls[x][y][0] ? "---" : "   ");
+        }
+        file.println("+");
+
+        // CELLS
+        for (int x = 0; x < 16; x++)
+        {
+            file.print(walls[x][y][3] ? "|" : " ");
+
+            if (x == this->x && y == this->y)
+                file.print(" M ");
+            else
+                file.print(" . ");
+        }
+
+        file.println("|");
+    }
+
+    // BOTTOM BORDER
+    for (int x = 0; x < 16; x++)
+        file.print("+---");
+    file.println("+");
+
+    file.close();
 }

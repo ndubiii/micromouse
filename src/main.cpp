@@ -9,6 +9,8 @@
 #include "Mapper.h"
 #include "MouseState.h"
 
+#include "SPIFFS.h"
+
 // --- Hardware Drivers ---
 ESP32MotorDriver lDr(18, 5), rDr(19, 17);
 ESP32Encoder lEncDr(34, 35), rEncDr(32, 33);
@@ -52,6 +54,10 @@ void setup()
     rightIR.begin();
     frontSonar.begin();
 
+    if (!SPIFFS.begin(true))
+    {
+        Serial.println("SPISFF failed!");
+    }
     Serial.println("Mouse ready.");
 }
 

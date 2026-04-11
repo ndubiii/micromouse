@@ -5,11 +5,13 @@
 class Planner
 {
 public:
-        int distField[16][16];
+    int distField[16][16];
 
     void runBFS(Mapper &map, int tx, int ty);
 
     int chooseDirection(Mapper &map);
+
+    int getCompressedDirection(Mapper &map, int heading);
 
     void updateFilteredWalls(Mapper &map, float front, float left, float right);
 

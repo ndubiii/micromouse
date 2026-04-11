@@ -120,3 +120,41 @@ int Planner::chooseSpeedDirection(Mapper &map, int heading)
     }
     return bestDir;
 }
+
+int Planner::getCompressedDirection(Mapper &map, int heading)
+{
+    int x = map.getX();
+    int y = map.getY();
+
+    int dx[4] = {0, 1, 0, -1};
+    int dy[4] = {1, 0, -1, 0};
+
+    int bestDir = 1;
+    int bestVal = 1000;
+
+    for (int d = 0; d < 4; d++)
+    {
+        if (wallConfidence[x][y][d] > THRESHOLD)
+            continue;
+
+        int nx = x + dx[d];
+        int ny = y + dy[d];
+
+        if (nx < 0 || nx >= 16 || ny < 0 || ny >= 16)
+            continue;
+
+        int val = distField[nx][ny];
+
+        if (d == heading)
+            val -= 1;
+        else if (d == (heading + 2) % 4)
+            val += 10;
+
+        if (val < bestVal)
+        {
+            bestVal = val;
+            bestDir = d;
+        }
+    }
+    return bestDir;
+}

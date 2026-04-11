@@ -23,7 +23,7 @@ void StateMachine::update()
     // 🔥 ALWAYS STEP MOTION FIRST
     _motion.update();
 
-      if (_motion.isBusy())
+    if (_motion.isBusy())
         _commandIssued = false;
     int chosenDir = -1;
 
@@ -64,9 +64,15 @@ void StateMachine::update()
 
             executeMove(chosenDir, false);
 
+            _commandIssued = true;
+        }
+
+        // Updates after motion
+        if (!_motion.isBusy() && _commandIssued)
+        {
             _mapper.moveForward();
             _pathDirty = true;
-            _commandIssued = true;
+            _commandIssued = false;
         }
 
         if (isAt(7, 7))
@@ -104,7 +110,7 @@ void StateMachine::update()
 
         if (!_motion.isBusy() && !_commandIssued)
         {
-            chosenDir = _planner.chooseSpeedDirection(
+            chosenDir = _planner.getCompressedDirection(
                 _mapper,
                 _mapper.getHeading());
 
@@ -114,7 +120,12 @@ void StateMachine::update()
             _pathDirty = true;
             _commandIssued = true;
         }
-
+        if (!_motion.isBusy() && _commandIssued)
+        {
+            _mapper.moveForward();
+            _commandIssued = false;
+            _pathDirty = true;
+        }
         if (isAt(0, 0))
         {
             _currentState = FINISHED;
@@ -159,7 +170,14 @@ void StateMachine::update()
     // -------------------------------------------------
     case FINISHED:
     {
+        static bool saved = false;
         _motion.stop();
+
+        if (!saved)
+        {
+            _mapper.saveMazeToFile();
+            saved = true;
+        }
         break;
     }
     }

@@ -20,6 +20,7 @@ public:
     void turnLeft();
     void turnRight();
     void turnAround();
+    void saveMazeToFile();
 
     void setPosition(int px, int py)
     {
